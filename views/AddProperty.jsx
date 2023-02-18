@@ -6,7 +6,11 @@ import {
     StyleSheet,
     TouchableOpacity,
     ScrollView,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Keyboard,
 } from 'react-native';
+import { useMutation } from '../convex/_generated/react';
 
 const AddProperty = ({ navigation }) => {
     const [name, setName] = useState('');
@@ -35,139 +39,181 @@ const AddProperty = ({ navigation }) => {
 
     const handleSave = () => {
         // Handle form submission
+        const addProperty = useMutation('addProperty');
+        if (!name || !type || !address || !owner || !rent || !securityDeposit) {
+            alert('Please fill out all required fields');
+            return;
+        }
+        addProperty({
+            name,
+            type,
+            address,
+            owner,
+            rent,
+            securityDeposit,
+            tenants,
+        });
 
         navigation.goBack();
     };
 
     return (
-        <ScrollView>
-            <View style={styles.container}>
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Name</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={name}
-                        onChangeText={(text) => setName(text)}
-                        placeholder='Enter property name'
-                    />
-                </View>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View>
+                    <ScrollView>
+                        <View style={styles.container}>
+                            <View style={styles.formGroup}>
+                                <Text style={styles.label}>Name</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    value={name}
+                                    onChangeText={(text) => setName(text)}
+                                    placeholder='Enter property name'
+                                />
+                            </View>
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Type</Text>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                            style={[
-                                styles.buttonChoice,
-                                type === 'House' && styles.activeButton,
-                            ]}
-                            onPress={() => setType('House')}
-                        >
-                            <Text
-                                style={[
-                                    styles.buttonText,
-                                    type === 'House' && styles.activeButtonText,
-                                ]}
-                            >
-                                House
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[
-                                styles.buttonChoice,
-                                type === 'Apartment' && styles.activeButton,
-                            ]}
-                            onPress={() => setType('Apartment')}
-                        >
-                            <Text
-                                style={[
-                                    styles.buttonText,
-                                    type === 'Apartment' &&
-                                        styles.activeButtonText,
-                                ]}
-                            >
-                                Apartment
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                            <View style={styles.formGroup}>
+                                <Text style={styles.label}>Type</Text>
+                                <View style={styles.buttonContainer}>
+                                    <TouchableOpacity
+                                        style={[
+                                            styles.buttonChoice,
+                                            type === 'House' &&
+                                                styles.activeButton,
+                                        ]}
+                                        onPress={() => setType('House')}
+                                    >
+                                        <Text
+                                            style={[
+                                                styles.buttonText,
+                                                type === 'House' &&
+                                                    styles.activeButtonText,
+                                            ]}
+                                        >
+                                            House
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={[
+                                            styles.buttonChoice,
+                                            type === 'Apartment' &&
+                                                styles.activeButton,
+                                        ]}
+                                        onPress={() => setType('Apartment')}
+                                    >
+                                        <Text
+                                            style={[
+                                                styles.buttonText,
+                                                type === 'Apartment' &&
+                                                    styles.activeButtonText,
+                                            ]}
+                                        >
+                                            Apartment
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Address</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={address}
-                        onChangeText={(text) => setAddress(text)}
-                        placeholder='Enter property address'
-                    />
-                </View>
+                            <View style={styles.formGroup}>
+                                <Text style={styles.label}>Address</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    value={address}
+                                    onChangeText={(text) => setAddress(text)}
+                                    placeholder='Enter property address'
+                                />
+                            </View>
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Owner</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={owner}
-                        onChangeText={(text) => setOwner(text)}
-                        placeholder='Enter owner name'
-                    />
-                </View>
+                            <View style={styles.formGroup}>
+                                <Text style={styles.label}>Owner</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    value={owner}
+                                    onChangeText={(text) => setOwner(text)}
+                                    placeholder='Enter owner name'
+                                />
+                            </View>
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Rent</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={rent}
-                        onChangeText={(text) => setRent(text)}
-                        placeholder='Enter monthly rent'
-                    />
-                </View>
+                            <View style={styles.formGroup}>
+                                <Text style={styles.label}>Rent</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    value={rent}
+                                    onChangeText={(text) => setRent(text)}
+                                    placeholder='Enter monthly rent'
+                                />
+                            </View>
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Security Deposit</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={securityDeposit}
-                        onChangeText={(text) => setSecurityDeposit(text)}
-                        placeholder='Enter security deposit (optional)'
-                    />
-                </View>
+                            <View style={styles.formGroup}>
+                                <Text style={styles.label}>
+                                    Security Deposit
+                                </Text>
+                                <TextInput
+                                    style={styles.input}
+                                    value={securityDeposit}
+                                    onChangeText={(text) =>
+                                        setSecurityDeposit(text)
+                                    }
+                                    placeholder='Enter security deposit (optional)'
+                                />
+                            </View>
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Tenants</Text>
-                    {tenants.map((tenant, index) => (
-                        <View style={styles.tenantInputContainer}>
-                            <TextInput
-                                key={index}
-                                style={styles.emailInput}
-                                value={tenant}
-                                placeholder='Enter tenant email'
-                                onChangeText={(text) =>
-                                    handleTenantChange(text, index)
-                                }
-                            />
-                            {index !== 0 && (
+                            <View style={styles.formGroup}>
+                                <Text style={styles.label}>Tenants</Text>
+                                {tenants.map((tenant, index) => (
+                                    <View style={styles.tenantInputContainer}>
+                                        <TextInput
+                                            key={index}
+                                            style={styles.emailInput}
+                                            value={tenant}
+                                            placeholder='Enter tenant email'
+                                            onChangeText={(text) =>
+                                                handleTenantChange(text, index)
+                                            }
+                                        />
+                                        {index !== 0 && (
+                                            <TouchableOpacity
+                                                onPress={() =>
+                                                    removeTenant(index)
+                                                }
+                                                key={index}
+                                            >
+                                                <Text
+                                                    key={index}
+                                                    style={
+                                                        styles.removeButtonText
+                                                    }
+                                                >
+                                                    x
+                                                </Text>
+                                            </TouchableOpacity>
+                                        )}
+                                    </View>
+                                ))}
                                 <TouchableOpacity
-                                    onPress={() => removeTenant(index)}
+                                    style={styles.addButton}
+                                    onPress={handleAddTenant}
                                 >
-                                    <Text style={styles.removeButtonText}>
-                                        x
-                                    </Text>
+                                    <Text style={styles.buttonText}>+</Text>
                                 </TouchableOpacity>
-                            )}
-                        </View>
-                    ))}
-                    <TouchableOpacity
-                        style={styles.addButton}
-                        onPress={handleAddTenant}
-                    >
-                        <Text style={styles.buttonText}>+</Text>
-                    </TouchableOpacity>
-                </View>
+                            </View>
 
-                <TouchableOpacity style={styles.button} onPress={handleSave}>
-                    <Text style={styles.buttonText}>Add Property</Text>
-                </TouchableOpacity>
-            </View>
-        </ScrollView>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={handleSave}
+                            >
+                                <Text style={styles.buttonText}>
+                                    Add Property
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
+                </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 };
 

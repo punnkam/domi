@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
+import getApartmentURI from '../convex/getApartmentURI';
+import { useQuery } from '../convex/_generated/react';
 
 export default function PropertyCard({
     name,
@@ -8,9 +10,10 @@ export default function PropertyCard({
     numTenants,
     isOverdue,
 }) {
+    const data = useQuery('getApartmentURI', 0);
     return (
         <View style={styles.card}>
-            <Image source={{ uri: imageSource }} style={styles.image} />
+            <Image source={{ uri: data }} style={styles.image} />
             <View style={styles.textContainer}>
                 <Text style={styles.title}>{name}</Text>
                 <Text style={styles.description}>{price}</Text>

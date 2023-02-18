@@ -1,6 +1,6 @@
 import { mutation } from './_generated/server';
 import { Id } from './_generated/dataModel';
-import { Property } from './types';
+import { Property } from '../common/types';
 
 export default mutation(
     async (
