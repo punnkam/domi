@@ -42,12 +42,12 @@ export default function App() {
             tabBarActiveTintColor: "black",
             tabBarInActiveTintColor: "gray",
             tabBarItemStyle: {
-              paddingVertical: 10,
+              paddingTop: 10,
             },
             tabBarStyle: [
               {
                 display: "flex",
-                minHeight: 70,
+                minHeight: 105,
               },
               null,
             ],
