@@ -13,11 +13,13 @@ import Chat from "./assets/chat.png";
 import ChatSelected from "./assets/chat-selected.png";
 import Profile from "./assets/profile.png";
 import ProfileSelected from "./assets/profile-selected.png";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HomeScreen from "./views/Home";
+import HomeScreen from "./views/HomeScreen";
 import TransactionsScreen from "./views/Transactions";
 import DomieBotScreen from "./views/DomieBot";
 import ProfileScreen from "./views/Profile";
+import HomeStack from "./views/HomeStack";
 
 const convex = new ConvexReactClient(
   "https://frugal-crocodile-166.convex.cloud",
@@ -34,6 +36,7 @@ export default function App() {
     <ConvexProvider client={convex}>
       <NavigationContainer>
         <Tab.Navigator
+
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
               // You can return any component that you like here!
@@ -42,22 +45,24 @@ export default function App() {
             tabBarActiveTintColor: "black",
             tabBarInActiveTintColor: "gray",
             tabBarItemStyle: {
-              paddingVertical: 10,
+              paddingTop: 10,
             },
             tabBarStyle: [
               {
                 display: "flex",
-                minHeight: 70,
+                minHeight: 85,
               },
               null,
             ],
+            headerShown: false
           })}
         >
-          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Home" component={HomeStack} />
           <Tab.Screen name="Transactions" component={TransactionsScreen} />
           <Tab.Screen name="DomieBot" component={DomieBotScreen} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
+
       </NavigationContainer>
     </ConvexProvider>
   );
@@ -85,8 +90,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   tinyLogo: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
   },
   logo: {
     width: 66,
