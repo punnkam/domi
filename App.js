@@ -14,6 +14,7 @@ import ChatSelected from "./assets/chat-selected.png";
 import Profile from "./assets/profile.png";
 import ProfileSelected from "./assets/profile-selected.png";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Login from "./views/Login";
 
 import HomeScreen from "./views/HomeScreen";
 import TransactionsScreen from "./views/Transactions";
@@ -29,42 +30,54 @@ const convex = new ConvexReactClient(
   }
 );
 
+export const AuthContext = React.createContext();
+
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  /**
+   * User Id's convention:
+   * 0: Not logged in
+   * 1: Landlord
+   * 2: Tenant 1
+   * 3: Tenant 2
+   */
+  const [userId, setUserId] = React.useState(0);
+
   return (
-    <ConvexProvider client={convex}>
-      <NavigationContainer>
-        <Tab.Navigator
+    <AuthContext.Provider value={{ userId }}>
+      <ConvexProvider client={convex} >
+        <NavigationContainer>
+          {userId !== 0 ? <Tab.Navigator
 
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              // You can return any component that you like here!
-              return <GetIcons {...{ focused, routeName: route.name }} />;
-            },
-            tabBarActiveTintColor: "black",
-            tabBarInActiveTintColor: "gray",
-            tabBarItemStyle: {
-              paddingTop: 10,
-            },
-            tabBarStyle: [
-              {
-                display: "flex",
-                minHeight: 85,
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                // You can return any component that you like here!
+                return <GetIcons {...{ focused, routeName: route.name }} />;
               },
-              null,
-            ],
-            headerShown: false
-          })}
-        >
-          <Tab.Screen name="Home" component={HomeStack} />
-          <Tab.Screen name="Transactions" component={TransactionsScreen} />
-          <Tab.Screen name="DomieBot" component={DomieBotScreen} />
-          <Tab.Screen name="Profile" component={ProfileScreen} />
-        </Tab.Navigator>
-
-      </NavigationContainer>
-    </ConvexProvider>
+              tabBarActiveTintColor: "black",
+              tabBarInActiveTintColor: "gray",
+              tabBarItemStyle: {
+                paddingTop: 10,
+              },
+              tabBarStyle: [
+                {
+                  display: "flex",
+                  minHeight: 85,
+                },
+                null,
+              ],
+              headerShown: false
+            })}
+          >
+            <Tab.Screen name="Home" component={HomeStack} />
+            <Tab.Screen name="Transactions" component={TransactionsScreen} />
+            <Tab.Screen name="DomieBot" component={DomieBotScreen} />
+            <Tab.Screen name="Profile" component={ProfileScreen} />
+          </Tab.Navigator> : <Login setUserType={setUserId} />}
+        </NavigationContainer>
+      </ConvexProvider >
+    </AuthContext.Provider>
   );
 }
 

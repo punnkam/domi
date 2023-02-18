@@ -1,5 +1,5 @@
 import { mutation } from './_generated/server';
-import { Payment } from '../common/types';
+import { Payment } from '../utils/types';
 
 export default mutation(async ({ db }, from, to, amount, purpose) => {
     const payment: Payment = {
