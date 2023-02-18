@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
     View,
     Text,
@@ -12,17 +12,19 @@ import {
 } from 'react-native';
 import { useMutation, useQuery } from '../convex/_generated/react';
 import SuccessPopup from '../components/SuccessPopup';
+import { AuthContext } from '../context/AuthContext';
 
 const AddProperty = ({ navigation }) => {
     const [name, setName] = useState('');
     const [type, setType] = useState('');
     const [address, setAddress] = useState('');
-    const [owner, setOwner] = useState(''); // TODO: Get from user
     const [rent, setRent] = useState('');
     const [tenants, setTenants] = useState(['']);
     const [isSuccess, setIsSuccess] = useState(false);
     const addProperty = useMutation('addProperty');
     const imageURI = useQuery('getApartmentURI', 0);
+
+    const userId = useContext(AuthContext);
 
     const handleAddTenant = () => {
         setTenants([...tenants, '']);
@@ -46,7 +48,6 @@ const AddProperty = ({ navigation }) => {
             !name ||
             !type ||
             !address ||
-            !owner ||
             !rent ||
             !tenants ||
             tenants.length === 0
@@ -55,7 +56,7 @@ const AddProperty = ({ navigation }) => {
             return;
         }
         try {
-            addProperty(name, type, address, owner, rent, tenants, imageURI);
+            addProperty(name, type, address, userId, rent, tenants, imageURI);
             setIsSuccess(true);
         } catch (e) {
             console.log(e);
@@ -67,7 +68,7 @@ const AddProperty = ({ navigation }) => {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View>
+                <View style={{ height: '100%' }}>
                     <SuccessPopup
                         text='Property Added'
                         visible={isSuccess}
@@ -136,16 +137,6 @@ const AddProperty = ({ navigation }) => {
                                     value={address}
                                     onChangeText={(text) => setAddress(text)}
                                     placeholder='Enter property address'
-                                />
-                            </View>
-
-                            <View style={styles.formGroup}>
-                                <Text style={styles.label}>Owner</Text>
-                                <TextInput
-                                    style={styles.input}
-                                    value={owner}
-                                    onChangeText={(text) => setOwner(text)}
-                                    placeholder='Enter owner name'
                                 />
                             </View>
 

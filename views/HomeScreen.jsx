@@ -1,19 +1,15 @@
 import { Text, View, SafeAreaView, FlatList, StatusBar } from 'react-native';
 import PropertyCard from '../components/PropertyCard';
 import AddPropertyButton from '../components/AddPropertyButton';
-
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        name: 'First Item',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        name: 'Second Item',
-    },
-];
+import { useQuery } from '../convex/_generated/react';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 export default function HomeScreen({ navigation }) {
+    const userId = useContext(AuthContext);
+    const properties = useQuery('getPropertiesByOwner', userId);
+    console.log(properties);
+
     return (
         <SafeAreaView
             style={{
@@ -24,8 +20,15 @@ export default function HomeScreen({ navigation }) {
                 onPress={() => navigation.navigate('Add Property')}
             />
             <FlatList
-                data={DATA}
-                renderItem={({ item }) => <PropertyCard name={item.name} />}
+                data={properties}
+                renderItem={({ item }) => (
+                    <PropertyCard
+                        name={item.name}
+                        price={`$${item.rent}`}
+                        numTenants={item.tenants.length}
+                        imageSource={item.imageURI}
+                    />
+                )}
                 keyExtractor={(item) => item.id}
             />
         </SafeAreaView>

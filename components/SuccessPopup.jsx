@@ -26,11 +26,14 @@ const SuccessPopup = ({ text, visible, onClose }) => {
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
+        height: '100%',
         bottom: 0,
         left: 0,
         right: 0,
         backgroundColor: 'rgba(0, 128, 0, 0.9)',
         zIndex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
     },
     content: {
         flexDirection: 'row',
