@@ -10,16 +10,19 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
 } from 'react-native';
-import { useMutation } from '../convex/_generated/react';
+import { useMutation, useQuery } from '../convex/_generated/react';
+import SuccessPopup from '../components/SuccessPopup';
 
 const AddProperty = ({ navigation }) => {
     const [name, setName] = useState('');
     const [type, setType] = useState('');
     const [address, setAddress] = useState('');
-    const [owner, setOwner] = useState('');
+    const [owner, setOwner] = useState(''); // TODO: Get from user
     const [rent, setRent] = useState('');
-    const [securityDeposit, setSecurityDeposit] = useState('');
     const [tenants, setTenants] = useState(['']);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const addProperty = useMutation('addProperty');
+    const imageURI = useQuery('getApartmentURI', 0);
 
     const handleAddTenant = () => {
         setTenants([...tenants, '']);
@@ -37,24 +40,26 @@ const AddProperty = ({ navigation }) => {
         setTenants(tenants);
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         // Handle form submission
-        const addProperty = useMutation('addProperty');
-        if (!name || !type || !address || !owner || !rent || !securityDeposit) {
+        if (
+            !name ||
+            !type ||
+            !address ||
+            !owner ||
+            !rent ||
+            !tenants ||
+            tenants.length === 0
+        ) {
             alert('Please fill out all required fields');
             return;
         }
-        addProperty({
-            name,
-            type,
-            address,
-            owner,
-            rent,
-            securityDeposit,
-            tenants,
-        });
-
-        navigation.goBack();
+        try {
+            addProperty(name, type, address, owner, rent, tenants, imageURI);
+            setIsSuccess(true);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     return (
@@ -63,6 +68,11 @@ const AddProperty = ({ navigation }) => {
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View>
+                    <SuccessPopup
+                        text='Property Added'
+                        visible={isSuccess}
+                        onClose={() => navigation.goBack()}
+                    />
                     <ScrollView>
                         <View style={styles.container}>
                             <View style={styles.formGroup}>
@@ -84,7 +94,9 @@ const AddProperty = ({ navigation }) => {
                                             type === 'House' &&
                                                 styles.activeButton,
                                         ]}
-                                        onPress={() => setType('House')}
+                                        onPress={() => {
+                                            setType('House');
+                                        }}
                                     >
                                         <Text
                                             style={[
@@ -148,20 +160,6 @@ const AddProperty = ({ navigation }) => {
                             </View>
 
                             <View style={styles.formGroup}>
-                                <Text style={styles.label}>
-                                    Security Deposit
-                                </Text>
-                                <TextInput
-                                    style={styles.input}
-                                    value={securityDeposit}
-                                    onChangeText={(text) =>
-                                        setSecurityDeposit(text)
-                                    }
-                                    placeholder='Enter security deposit (optional)'
-                                />
-                            </View>
-
-                            <View style={styles.formGroup}>
                                 <Text style={styles.label}>Tenants</Text>
                                 {tenants.map((tenant, index) => (
                                     <View style={styles.tenantInputContainer}>
@@ -179,10 +177,10 @@ const AddProperty = ({ navigation }) => {
                                                 onPress={() =>
                                                     removeTenant(index)
                                                 }
-                                                key={index}
+                                                key={index + 1}
                                             >
                                                 <Text
-                                                    key={index}
+                                                    key={index + 2}
                                                     style={
                                                         styles.removeButtonText
                                                     }

@@ -14,6 +14,7 @@ import ChatSelected from "./assets/chat-selected.png";
 import Profile from "./assets/profile.png";
 import ProfileSelected from "./assets/profile-selected.png";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Login from "./views/Login";
 
 import HomeScreen from "./views/HomeScreen";
 import TransactionsScreen from "./views/Transactions";
@@ -33,9 +34,10 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <ConvexProvider client={convex}>
+
+    <ConvexProvider client={convex} >
       <NavigationContainer>
-        <Tab.Navigator
+        {/* <Tab.Navigator
 
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
@@ -61,10 +63,10 @@ export default function App() {
           <Tab.Screen name="Transactions" component={TransactionsScreen} />
           <Tab.Screen name="DomieBot" component={DomieBotScreen} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
-        </Tab.Navigator>
-
+        </Tab.Navigator> */}
+        <Login />
       </NavigationContainer>
-    </ConvexProvider>
+    </ConvexProvider >
   );
 }
 
