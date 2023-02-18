@@ -7,11 +7,13 @@ export interface Payment {
 
 export interface Property {
     name: string;
+    type: string;
     address: string;
     owner: string;
     rent: number;
     securityDeposit: number;
     tenants: Tenant[];
+    imageURI?: string;
 }
 
 export interface User {

@@ -3,6 +3,7 @@ import { Property } from './types';
 
 export default mutation(
     async ({ db }, name, address, owner, rent, tenants, securityDeposit) => {
+        // add imageURI to property
         const property: Property = {
             name: name,
             address: address,
