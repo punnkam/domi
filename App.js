@@ -47,7 +47,7 @@ export default function App() {
             tabBarStyle: [
               {
                 display: "flex",
-                minHeight: 105,
+                minHeight: 85,
               },
               null,
             ],
@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   tinyLogo: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
   },
   logo: {
     width: 66,
