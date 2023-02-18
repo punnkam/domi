@@ -1,10 +1,7 @@
 import { mutation } from './_generated/server';
+import { Payment } from './types';
 
-interface Payment {
-    amount: number;
-}
-
-export default mutation(async ({ db }, body, author) => {
-    const message = { body, author };
-    await db.insert('messages', message);
+export default mutation(async ({ db }, body) => {
+    const payment: Payment = body;
+    await db.insert('payments', payment);
 });

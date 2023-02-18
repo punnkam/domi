@@ -11,6 +11,7 @@
 
 import type { ApiFromModules } from "convex/api";
 import type * as makePayment from "../makePayment";
+import type * as types from "../types";
 
 /**
  * A type describing your app's public Convex API.
@@ -23,4 +24,5 @@ import type * as makePayment from "../makePayment";
  */
 export type API = ApiFromModules<{
   makePayment: typeof makePayment;
+  types: typeof types;
 }>;
