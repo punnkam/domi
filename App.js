@@ -1,5 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-get-random-values';
+
+
+const convex = new ConvexReactClient(CONVEX_URL, {
+  // We need to disable this to be compatible with React Native
+  unsavedChangesWarning: false,
+});
 
 export default function App() {
   return (

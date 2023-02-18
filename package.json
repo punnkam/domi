@@ -9,13 +9,18 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "convex": "^0.9.1",
     "expo": "~47.0.12",
     "expo-status-bar": "~1.4.2",
+    "pdf-parse": "^1.1.1",
     "react": "18.1.0",
-    "react-native": "0.70.5"
+    "react-native": "0.70.5",
+    "react-native-dotenv": "^3.4.7",
+    "react-native-get-random-values": "^1.8.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "@types/node": "^18.14.0"
   },
   "private": true
 }
