@@ -37,7 +37,7 @@ export default function App() {
 
     <ConvexProvider client={convex} >
       <NavigationContainer>
-        {/* <Tab.Navigator
+        <Tab.Navigator
 
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
@@ -63,8 +63,8 @@ export default function App() {
           <Tab.Screen name="Transactions" component={TransactionsScreen} />
           <Tab.Screen name="DomieBot" component={DomieBotScreen} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
-        </Tab.Navigator> */}
-        <Login />
+        </Tab.Navigator>
+        {/* <Login /> */}
       </NavigationContainer>
     </ConvexProvider >
   );
