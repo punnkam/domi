@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
     View,
     Text,
@@ -7,10 +7,18 @@ import {
     TouchableOpacity,
 } from 'react-native';
 
-const Login = () => {
+const Login = ({ setUserType }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const login = (username, password) => {};
+    const login = (username, password) => {
+        if (username === 'landlord' && password === 'landlord') {
+            setUserType(1);
+        } else if (username === 'tenant1' && password === 'tenant1') {
+            setUserType(2);
+        } else if (username === 'tenant2' && password === 'tenant2') {
+            setUserType(3);
+        }
+    };
 
     return (
         <View style={styles.container}>
