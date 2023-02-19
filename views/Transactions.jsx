@@ -36,9 +36,12 @@ export default function TransactionsScreen() {
       else {
         console.log("within handlePayPress, clientSecret = ", clientSecret);
         const { paymentIntent, error } = await confirmPayment(clientSecret, {
-          type: "Card",
-          billingDetails,
+          paymentMethodType: "Card",
+          paymentMethodData: {
+            billingDetails,
+          },
         });
+        console.log("paymentIntent = ", paymentIntent);
         if (error) {
           alert(`Payment Confirmation Error ${error.message}`);
         } else if (paymentIntent) {
@@ -83,7 +86,8 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   input: {
-    backgroundColor: "red",
+    width: "100%",
+    backgroundColor: "#FFFFFF",
     borderColor: "#000000",
     borderRadius: 8,
     fontSize: 20,
