@@ -1,34 +1,59 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import getApartmentURI from '../convex/getApartmentURI';
 import { useQuery } from '../convex/_generated/react';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function PropertyCard({ name, imageSource, price, numTenants }) {
+export default function PropertyCard({
+    navigation,
+    name,
+    imageSource,
+    price,
+    numTenants,
+    tenants,
+}) {
     const data = useQuery('getApartmentURI', 0);
 
     // Randomization for demo purposes
-    const randomDays = Math.floor(Math.random() * 100) % 30;
+    const randomDays = (Math.floor(Math.random() * 100) % 29) + 1;
     const isOverdue = Math.floor(Math.random() * 100) % 2 == 1;
 
     return (
-        <View style={styles.card}>
-            <Image source={{ uri: data }} style={styles.image} />
-            <View style={styles.textContainer}>
-                <Text style={styles.title}>{name}</Text>
-                <Text style={styles.description}>{`${price} | ${numTenants} ${
-                    numTenants > 1 ? 'tenants' : 'tenant'
-                }`}</Text>
-                <Text style={isOverdue ? styles.red : styles.green}>
-                    {isOverdue
-                        ? `${randomDays} ${
-                              randomDays > 1 ? 'days' : 'day'
-                          } overdue`
-                        : `Due in ${randomDays} ${
-                              randomDays > 1 ? 'days' : 'day'
-                          }`}
-                </Text>
+        <TouchableOpacity
+            onPress={() =>
+                navigation.navigate('Property', {
+                    tenants: tenants,
+                })
+            }
+        >
+            <View style={styles.card}>
+                <Image source={{ uri: data }} style={styles.image} />
+                <View style={styles.textContainer}>
+                    <Text style={styles.title}>{name}</Text>
+                    <Text
+                        style={styles.description}
+                    >{`${price} | ${numTenants} ${
+                        numTenants > 1 ? 'tenants' : 'tenant'
+                    }`}</Text>
+                    <Text style={isOverdue ? styles.red : styles.green}>
+                        {isOverdue
+                            ? `${randomDays} ${
+                                  randomDays > 1 ? 'days' : 'day'
+                              } overdue`
+                            : `Due in ${randomDays} ${
+                                  randomDays > 1 ? 'days' : 'day'
+                              }`}
+                    </Text>
+                </View>
+                <View style={styles.arrow}>
+                    <Ionicons
+                        name='arrow-forward-sharp'
+                        size={24}
+                        color='black'
+                    />
+                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
@@ -70,5 +95,9 @@ const styles = StyleSheet.create({
     },
     green: {
         color: 'green',
+    },
+    arrow: {
+        alignSelf: 'center',
+        marginRight: 10,
     },
 });
