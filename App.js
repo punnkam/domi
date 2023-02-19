@@ -16,6 +16,7 @@ import Login from "./views/Login";
 
 import TransactionsScreen from "./views/Transactions";
 import DomieBotScreen from "./views/DomieBot";
+import TxnStack from "./views/TxnStack";
 import ProfileScreen from "./views/Profile";
 import HomeStack from "./views/HomeStack";
 import { AuthContext } from "./context/AuthContext";
@@ -83,8 +84,8 @@ export default function App() {
                 headerShown: false,
               })}
             >
-              <Tab.Screen name="Home" component={HomeStack} />
-              <Tab.Screen name="Transactions" component={TransactionsScreen} />
+              {userId === 1 && <Tab.Screen name="Home" component={HomeStack} />}
+              <Tab.Screen name="Transactions" component={TxnStack} />
               <Tab.Screen name="DomieBot" component={DomieBotScreen} />
               <Tab.Screen name="Profile" component={ProfileScreen} />
             </Tab.Navigator>

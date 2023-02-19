@@ -28,6 +28,7 @@ export interface User {
     email: string;
     password: string;
     phone: string;
+    imageURI?: string;
 }
 
 export interface Message {
