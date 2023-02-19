@@ -162,7 +162,7 @@ const AddProperty = ({ navigation }) => {
                             <View style={styles.formGroup}>
                                 <Text style={styles.label}>Tenants</Text>
                                 {tenants.map((tenant, index) => (
-                                    <View style={styles.tenantInputContainer}>
+                                    <View style={styles.tenantInputContainer} key={index}>
                                         <TextInput
                                             key={index}
                                             style={styles.emailInput}
