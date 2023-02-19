@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useQuery, useMutation } from '../convex/_generated/react';
 import { AuthContext } from '../context/AuthContext';
 import DropDownPicker from 'react-native-dropdown-picker';
+import TransactionCard from '../components/TransactionCard';
 
 const API_URL = 'https://domi-server-production.up.railway.app';
 
@@ -13,6 +14,7 @@ export default function TransactionsScreen() {
     const [cardDetails, setCardDetails] = useState('4242 4242 4242 4242');
     const [amount, setAmount] = useState('');
     const { confirmPayment, loading } = useConfirmPayment();
+
     const fetchPaymentIntentClientSecret = async () => {
         console.log('fetchPaymentIntentClientSecret called');
         const response = await axios
@@ -27,10 +29,28 @@ export default function TransactionsScreen() {
     const [openDD, setOpenDD] = useState(false);
     const [valueDD, setValueDD] = useState(null);
 
-    const userId = useContext(AuthContext);
+    const userId = useContext(AuthContext).userId;
     const makePayment = useMutation('makePayment');
-    const properties = useQuery('getPropertiesForTenant', userId);
-    const propertyNames = properties ? properties.map((p) => p.name) : [];
+    const name = useQuery('getName', userId);
+    const paymentsFromUser = useQuery('getPaymentsFromUser', userId);
+    const paymentsToUser = useQuery('getPaymentsToUser', userId);
+
+    // combine paymentsFromUser and paymentsToUser by making a new array where the amounts from
+    // the paymentsToUser are negative and the amounts from paymentsFromUser are positive
+    if (!paymentsFromUser || !paymentsToUser) return null;
+    const payments = paymentsFromUser
+        .concat(paymentsToUser)
+        .map((payment) => {
+            if (payment.from === userId) {
+                return {
+                    ...payment,
+                    amount: payment.amount * -1,
+                };
+            } else {
+                return payment;
+            }
+        })
+        .sort((a, b) => b.timestamp - a.timestamp);
 
     const handlePayPress = async () => {
         console.log('Payment pressed!');
@@ -66,15 +86,9 @@ export default function TransactionsScreen() {
                     Alert.alert('Payment Successful');
                 }
 
-                const toUserId = 0;
-                for (const p in properties) {
-                    if (p.name === valueDD) {
-                        toUserId = p.owner;
-                        break;
-                    }
-                }
+                const toUserId = 1;
 
-                makePayment(userId, toUserId, amount, 'rent');
+                makePayment(userId.userId, toUserId, parseInt(amount), 'rent');
             }
         } catch (error) {
             console.log('error from handlePayPress = ', error);
@@ -82,24 +96,38 @@ export default function TransactionsScreen() {
         // 3. Confirm the payment with the card details.
     };
 
-    return (
+    return userId === 1 ? (
+        payments.map((payment, index) => {
+            return (
+                <TransactionCard
+                    key={index}
+                    name={payment.purpose}
+                    amount={payment.amount}
+                    timestamp={payment._creationTime}
+                />
+            );
+        })
+    ) : (
         <View style={styles.container}>
-            <TextInput
-                placeholder='Amount'
-                keyboardType='numeric'
-                onChange={(value) => setAmount(value.nativeEvent.text)}
-                style={styles.input}
-            />
-            <DropDownPicker
+            {/* <DropDownPicker
                 open={openDD}
                 setOpen={setOpenDD}
                 value={valueDD}
                 setValue={setValueDD}
                 items={propertyNames}
+                style={{ backgroundColor: '#f5f5f5', textColor: '#000' }}
+                placeholder='Select a property'
+            /> */}
+            <TextInput
+                placeholder='Enter an amount'
+                keyboardType='numeric'
+                onChange={(value) => setAmount(value.nativeEvent.text)}
+                style={styles.input}
             />
+
             <TextInput
                 autoCapitalize='none'
-                placeholder='Email'
+                placeholder='Enter recipient email'
                 keyboardType='email-address'
                 onChange={(value) => setEmail(value.nativeEvent.text)}
                 style={styles.input}
