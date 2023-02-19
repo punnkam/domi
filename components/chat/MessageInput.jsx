@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
-  KeyboardAvoidingView,
 } from "react-native";
 
 const MessageInput = ({ onSend }) => {
