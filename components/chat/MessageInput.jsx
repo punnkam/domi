@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    TextInput,
+    TouchableOpacity,
+    Text,
+} from 'react-native';
 
 const MessageInput = ({ onSend }) => {
     const [message, setMessage] = useState('');
@@ -34,6 +40,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderTopWidth: 1,
         borderTopColor: '#CCCCCC',
+        height: 60,
     },
     input: {
         flex: 1,

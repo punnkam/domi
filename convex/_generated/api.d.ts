@@ -20,7 +20,9 @@ import type * as getPaymentsFromUser from "../getPaymentsFromUser";
 import type * as getPaymentsToUser from "../getPaymentsToUser";
 import type * as getPropertiesByOwner from "../getPropertiesByOwner";
 import type * as getPropertyById from "../getPropertyById";
+import type * as listMessagesByUser from "../listMessagesByUser";
 import type * as makePayment from "../makePayment";
+import type * as sendMessage from "../sendMessage";
 
 /**
  * A type describing your app's public Convex API.
@@ -42,5 +44,7 @@ export type API = ApiFromModules<{
   getPaymentsToUser: typeof getPaymentsToUser;
   getPropertiesByOwner: typeof getPropertiesByOwner;
   getPropertyById: typeof getPropertyById;
+  listMessagesByUser: typeof listMessagesByUser;
   makePayment: typeof makePayment;
+  sendMessage: typeof sendMessage;
 }>;

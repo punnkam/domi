@@ -22,3 +22,10 @@ export interface User {
     password: string;
     phone: string;
 }
+
+export interface Message {
+    from: string;
+    to: string;
+    message: string;
+    timestamp: number;
+}
