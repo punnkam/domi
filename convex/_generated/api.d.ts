@@ -11,6 +11,7 @@
 
 import type { ApiFromModules } from "convex/api";
 import type * as actions_createPaymentIntent from "../actions/createPaymentIntent";
+import type * as addPayment from "../addPayment";
 import type * as addProperty from "../addProperty";
 import type * as editPropertyById from "../editPropertyById";
 import type * as getApartmentURI from "../getApartmentURI";
@@ -19,6 +20,7 @@ import type * as getName from "../getName";
 import type * as getPaymentsFromUser from "../getPaymentsFromUser";
 import type * as getPaymentsToUser from "../getPaymentsToUser";
 import type * as getPropertiesByOwner from "../getPropertiesByOwner";
+import type * as getPropertiesForTenant from "../getPropertiesForTenant";
 import type * as getPropertyById from "../getPropertyById";
 import type * as listMessagesByUser from "../listMessagesByUser";
 import type * as makePayment from "../makePayment";
@@ -35,6 +37,7 @@ import type * as sendMessage from "../sendMessage";
  */
 export type API = ApiFromModules<{
   "actions/createPaymentIntent": typeof actions_createPaymentIntent;
+  addPayment: typeof addPayment;
   addProperty: typeof addProperty;
   editPropertyById: typeof editPropertyById;
   getApartmentURI: typeof getApartmentURI;
@@ -43,6 +46,7 @@ export type API = ApiFromModules<{
   getPaymentsFromUser: typeof getPaymentsFromUser;
   getPaymentsToUser: typeof getPaymentsToUser;
   getPropertiesByOwner: typeof getPropertiesByOwner;
+  getPropertiesForTenant: typeof getPropertiesForTenant;
   getPropertyById: typeof getPropertyById;
   listMessagesByUser: typeof listMessagesByUser;
   makePayment: typeof makePayment;
