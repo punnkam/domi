@@ -1,5 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
+import {
+    StyleSheet,
+    SafeAreaView,
+    ScrollView,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Keyboard,
+} from 'react-native';
 import MessageThread from './MessageThread';
 import MessageInput from './MessageInput';
 import { AuthContext } from '../../context/AuthContext';
@@ -16,16 +23,23 @@ const ChatScreen = () => {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <MessageThread messages={messages} user={currentUser} />
-            <MessageInput onSend={handleSend} />
-        </SafeAreaView>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.container}
+        >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <SafeAreaView style={styles.container}>
+                    <MessageThread messages={messages} user={currentUser} />
+                    <MessageInput onSend={handleSend} />
+                </SafeAreaView>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        height: '100%',
         backgroundColor: '#FFFFFF',
     },
 });

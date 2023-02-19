@@ -4,7 +4,6 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 const ChatBubble = ({ message, isMine }) => {
     const bubbleStyles = isMine ? styles.myBubble : styles.otherBubble;
     const textStyles = isMine ? styles.myText : styles.otherText;
-
     return (
         <View style={styles.container}>
             <View style={[styles.bubble, bubbleStyles]}>
@@ -17,7 +16,7 @@ const ChatBubble = ({ message, isMine }) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        // alignItems: 'flex-end',
         marginVertical: 5,
     },
     bubble: {

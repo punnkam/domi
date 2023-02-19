@@ -6,6 +6,7 @@ import {
     Image,
     FlatList,
     ActivityIndicator,
+    ScrollView,
 } from 'react-native';
 import { useQuery } from '../convex/_generated/react';
 import TenantItem from './TenantItem';
@@ -29,21 +30,11 @@ export const TenantList = ({ tenants }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Tenants</Text>
-            {
-                <FlatList
-                    data={names}
-                    numColumns={3}
-                    keyExtractor={(item, index) => {
-                        return index.toString();
-                    }}
-                    renderItem={({ item, index }) => {
-                        return (
-                            <TenantItem name={item} status='PAID' key={index} />
-                        );
-                    }}
-                    style={styles.listContainer}
-                />
-            }
+            <View style={styles.listContainer}>
+                {names.map((item, index) => {
+                    return <TenantItem name={item} status='PAID' key={index} />;
+                })}
+            </View>
         </View>
     );
 };
@@ -55,7 +46,8 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     listContainer: {
-        // marginHorizontal: 20,
+        height: '100%',
+        flexGrow: 0,
     },
     itemContainer: {
         flex: 1,

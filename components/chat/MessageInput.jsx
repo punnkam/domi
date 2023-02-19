@@ -5,6 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     Text,
+    KeyboardAvoidingView,
 } from 'react-native';
 
 const MessageInput = ({ onSend }) => {
@@ -18,29 +19,39 @@ const MessageInput = ({ onSend }) => {
     };
 
     return (
-        <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                placeholder='Type your message here...'
-                value={message}
-                onChangeText={setMessage}
-                multiline
-            />
-            <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
-                <Text style={styles.sendButtonText}>Send</Text>
-            </TouchableOpacity>
-        </View>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+            <View style={styles.container}>
+                <TextInput
+                    style={styles.input}
+                    placeholder='Type your message here...'
+                    value={message}
+                    onChangeText={setMessage}
+                    multiline
+                />
+                <TouchableOpacity
+                    style={styles.sendButton}
+                    onPress={handleSend}
+                >
+                    <Text style={styles.sendButtonText}>Send</Text>
+                </TouchableOpacity>
+            </View>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        alignItems: 'center',
+        // alignItems: 'center',
         padding: 10,
         borderTopWidth: 1,
         borderTopColor: '#CCCCCC',
-        height: 60,
+        position: 'relative',
+        bottom: 0,
+        left: 0,
+        right: 0,
     },
     input: {
         flex: 1,
@@ -48,17 +59,22 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 10,
         backgroundColor: '#FFFFFF',
-        borderRadius: 20,
+        borderRadius: 10,
         borderWidth: 1,
         borderColor: '#CCCCCC',
+        height: 50,
+        fontSize: 16,
     },
     sendButton: {
         backgroundColor: '#007AFF',
-        borderRadius: 20,
+        borderRadius: 10,
         paddingHorizontal: 20,
         paddingVertical: 10,
+        height: 50,
+        justifyContent: 'center',
     },
     sendButtonText: {
+        fontSize: 16,
         color: '#FFFFFF',
         fontWeight: 'bold',
     },
