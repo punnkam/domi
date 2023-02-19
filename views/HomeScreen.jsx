@@ -23,10 +23,12 @@ export default function HomeScreen({ navigation }) {
                 data={properties}
                 renderItem={({ item }) => (
                     <PropertyCard
+                        navigation={navigation}
                         name={item.name}
                         price={`$${item.rent}`}
                         numTenants={item.tenants.length}
                         imageSource={item.imageURI}
+                        tenants={item.tenants}
                     />
                 )}
                 keyExtractor={(item) => item.id}
