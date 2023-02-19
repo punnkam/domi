@@ -42,7 +42,9 @@ export default function HomeScreen({ navigation }) {
                         />
                     );
                 }}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item, index) => {
+                    return index.toString();
+                }}
             />
         </SafeAreaView>
     );

@@ -33,12 +33,14 @@ export const TenantList = ({ tenants }) => {
                 <FlatList
                     data={names}
                     numColumns={3}
+                    keyExtractor={(item, index) => {
+                        return index.toString();
+                    }}
                     renderItem={({ item, index }) => {
                         return (
                             <TenantItem name={item} status='PAID' key={index} />
                         );
                     }}
-                    keyExtractor={(item) => item.id}
                     style={styles.listContainer}
                 />
             }
