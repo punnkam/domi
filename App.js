@@ -21,6 +21,7 @@ import TransactionsScreen from "./views/Transactions";
 import DomieBotScreen from "./views/DomieBot";
 import ProfileScreen from "./views/Profile";
 import HomeStack from "./views/HomeStack";
+import { AuthContext } from "./context/AuthContext";
 
 const convex = new ConvexReactClient(
   "https://frugal-crocodile-166.convex.cloud",
@@ -29,8 +30,6 @@ const convex = new ConvexReactClient(
     unsavedChangesWarning: false,
   }
 );
-
-export const AuthContext = React.createContext();
 
 const Tab = createBottomTabNavigator();
 

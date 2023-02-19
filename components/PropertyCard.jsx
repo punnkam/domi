@@ -3,20 +3,30 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import getApartmentURI from '../convex/getApartmentURI';
 import { useQuery } from '../convex/_generated/react';
 
-export default function PropertyCard({
-    name,
-    imageSource,
-    price,
-    numTenants,
-    isOverdue,
-}) {
+export default function PropertyCard({ name, imageSource, price, numTenants }) {
     const data = useQuery('getApartmentURI', 0);
+
+    // Randomization for demo purposes
+    const randomDays = Math.floor(Math.random() * 100) % 30;
+    const isOverdue = Math.floor(Math.random() * 100) % 2 == 1;
+
     return (
         <View style={styles.card}>
             <Image source={{ uri: data }} style={styles.image} />
             <View style={styles.textContainer}>
                 <Text style={styles.title}>{name}</Text>
-                <Text style={styles.description}>{price}</Text>
+                <Text style={styles.description}>{`${price} | ${numTenants} ${
+                    numTenants > 1 ? 'tenants' : 'tenant'
+                }`}</Text>
+                <Text style={isOverdue ? styles.red : styles.green}>
+                    {isOverdue
+                        ? `${randomDays} ${
+                              randomDays > 1 ? 'days' : 'day'
+                          } overdue`
+                        : `Due in ${randomDays} ${
+                              randomDays > 1 ? 'days' : 'day'
+                          }`}
+                </Text>
             </View>
         </View>
     );
@@ -54,5 +64,11 @@ const styles = StyleSheet.create({
     },
     description: {
         fontSize: 16,
+    },
+    red: {
+        color: 'red',
+    },
+    green: {
+        color: 'green',
     },
 });
