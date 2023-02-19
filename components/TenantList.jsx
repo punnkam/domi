@@ -32,7 +32,15 @@ export const TenantList = ({ tenants }) => {
             <Text style={styles.title}>Tenants</Text>
             <View style={styles.listContainer}>
                 {names.map((item, index) => {
-                    return <TenantItem name={item} status='PAID' key={index} />;
+                    // random number between one and two
+                    const random = Math.floor(Math.random() * 2) + 1;
+                    return (
+                        <TenantItem
+                            name={item}
+                            isOverdue={random == 1}
+                            key={index}
+                        />
+                    );
                 })}
             </View>
         </View>

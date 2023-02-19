@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function TenantItem({ name, imageURI, status, isOverdue }) {
+export default function TenantItem({ name, imageURI, isOverdue }) {
     return (
         <TouchableOpacity style={styles.button}>
             <View style={styles.card}>
