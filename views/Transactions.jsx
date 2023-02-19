@@ -3,7 +3,8 @@ import { Text, Button, View, StyleSheet, TextInput, Alert } from "react-native";
 import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
 import { useAction } from "../convex/_generated/react";
 
-const API_URL = "http://localhost:3000";
+const API_URL =
+  "https://domi-server-production.up.railway.app/create-payment-intent";
 
 export default function TransactionsScreen() {
   const [email, setEmail] = useState("");
@@ -11,7 +12,10 @@ export default function TransactionsScreen() {
   const { confirmPayment, loading } = useConfirmPayment();
   const fetchPaymentIntentClientSecret = async () => {
     console.log("fetchPaymentIntentClientSecret called");
-    await useAction("actions/createPaymentIntent", "abc", "xyz");
+    await axios
+      .post(API_URL)
+      .then((res) => console.log("res = ", res))
+      .catch((err) => console.log(err));
     console.log("Worked!");
   };
 
