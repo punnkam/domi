@@ -37,13 +37,13 @@ export default function TransactionsScreen() {
         console.log("within handlePayPress, clientSecret = ", clientSecret);
         const { paymentIntent, error } = await confirmPayment(clientSecret, {
           paymentMethodType: "Card",
-          paymentMethodData: {
-            billingDetails,
-          },
+          billingDetails,
         });
         console.log("paymentIntent = ", paymentIntent);
         if (error) {
-          alert(`Payment Confirmation Error ${error.message}`);
+          Alert.alert(
+            `Payment Confirmation Error ${error.message}. Error code: ${error.code}`
+          );
         } else if (paymentIntent) {
           alert("Payment Successful");
           console.log("Payment successful ", paymentIntent);
