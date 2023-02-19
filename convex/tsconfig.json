@@ -20,6 +20,6 @@
     /* Prevents node_modules from adding additional global types e.g. node types */
     "types": ["node"],
   },
-  "include": ["./**/*"],
+  "include": ["./**/*", "../utils/constants.ts", "../lease_parse"],
   "exclude": ["./_generated", "./actions"]
 }

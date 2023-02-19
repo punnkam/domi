@@ -3,5 +3,10 @@
   "team": "punnkam",
   "prodUrl": "https://frugal-crocodile-166.convex.cloud",
   "functions": "convex/",
-  "authInfo": []
+  "authInfo": [
+    {
+      "domain": "https://dev-supuyoke777qpdk6.us.auth0.com/",
+      "applicationID": "PNKW34PWhghzjng26YwYPGy02g2ZUIN3"
+    }
+  ]
 }

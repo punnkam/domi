@@ -11,9 +11,8 @@ export interface Property {
     address: string;
     owner: string;
     rent: number;
-    securityDeposit: number;
     tenants: string[];
-    imageURI?: string | null;
+    imageURI: string;
 }
 
 export interface User {

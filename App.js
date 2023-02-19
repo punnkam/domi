@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
 import "react-native-get-random-values";
-import { useMutation, useQuery } from "./convex/_generated/react";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
@@ -13,13 +12,15 @@ import Chat from "./assets/chat.png";
 import ChatSelected from "./assets/chat-selected.png";
 import Profile from "./assets/profile.png";
 import ProfileSelected from "./assets/profile-selected.png";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Login from "./views/Login";
 
 import HomeScreen from "./views/HomeScreen";
 import TransactionsScreen from "./views/Transactions";
 import DomieBotScreen from "./views/DomieBot";
 import ProfileScreen from "./views/Profile";
 import HomeStack from "./views/HomeStack";
+import { AuthContext } from "./context/AuthContext";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 const convex = new ConvexReactClient(
   "https://frugal-crocodile-166.convex.cloud",
@@ -32,39 +33,57 @@ const convex = new ConvexReactClient(
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  /**
+   * User Id's convention:
+   * 0: Not logged in
+   * 1: Landlord
+   * 2: Tenant 1
+   * 3: Tenant 2
+   */
+  const [userId, setUserId] = React.useState(0);
+
   return (
-    <ConvexProvider client={convex}>
-      <NavigationContainer>
-        <Tab.Navigator
-
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              // You can return any component that you like here!
-              return <GetIcons {...{ focused, routeName: route.name }} />;
-            },
-            tabBarActiveTintColor: "black",
-            tabBarInActiveTintColor: "gray",
-            tabBarItemStyle: {
-              paddingTop: 10,
-            },
-            tabBarStyle: [
-              {
-                display: "flex",
-                minHeight: 85,
-              },
-              null,
-            ],
-            headerShown: false
-          })}
-        >
-          <Tab.Screen name="Home" component={HomeStack} />
-          <Tab.Screen name="Transactions" component={TransactionsScreen} />
-          <Tab.Screen name="DomieBot" component={DomieBotScreen} />
-          <Tab.Screen name="Profile" component={ProfileScreen} />
-        </Tab.Navigator>
-
-      </NavigationContainer>
-    </ConvexProvider>
+    <AuthContext.Provider value={{ userId }}>
+      <ConvexProvider client={convex}>
+        <StripeProvider publisableKey="pk_test_51Md43MJNJYoa22nr14xn6Cdbu8SK6iAh3ANU5HpCDZd55eaDm9ub6oPizhAbAFlTugORVNTRZhMnodHIwt5ZVn2L00xhk2Ntn7">
+          <NavigationContainer>
+            {userId !== 0 ? (
+              <Tab.Navigator
+                screenOptions={({ route }) => ({
+                  tabBarIcon: ({ focused, color, size }) => {
+                    // You can return any component that you like here!
+                    return <GetIcons {...{ focused, routeName: route.name }} />;
+                  },
+                  tabBarActiveTintColor: "black",
+                  tabBarInActiveTintColor: "gray",
+                  tabBarItemStyle: {
+                    paddingTop: 10,
+                  },
+                  tabBarStyle: [
+                    {
+                      display: "flex",
+                      minHeight: 85,
+                    },
+                    null,
+                  ],
+                  headerShown: false,
+                })}
+              >
+                <Tab.Screen name="Home" component={HomeStack} />
+                <Tab.Screen
+                  name="Transactions"
+                  component={TransactionsScreen}
+                />
+                <Tab.Screen name="DomieBot" component={DomieBotScreen} />
+                <Tab.Screen name="Profile" component={ProfileScreen} />
+              </Tab.Navigator>
+            ) : (
+              <Login setUserType={setUserId} />
+            )}
+          </NavigationContainer>
+        </StripeProvider>
+      </ConvexProvider>
+    </AuthContext.Provider>
   );
 }
 
