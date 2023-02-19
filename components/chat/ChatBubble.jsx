@@ -1,5 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
+import { Avatar } from "@rneui/themed";
+import Domi from "../../assets/domi.png";
+import TenantProfile from "../../assets/tenant-profile.png";
 
 const ChatBubble = ({ message, isMine }) => {
   const bubbleStyles = isMine ? styles.myBubble : styles.otherBubble;
@@ -12,6 +15,7 @@ const ChatBubble = ({ message, isMine }) => {
         flexDirection: isMine ? "row-reverse" : "row",
       }}
     >
+      <Avatar size={30} rounded source={isMine ? TenantProfile : Domi} />
       <View style={[styles.bubble, bubbleStyles]}>
         <Text style={[styles.text, textStyles]}>{message}</Text>
       </View>
