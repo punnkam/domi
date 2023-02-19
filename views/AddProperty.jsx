@@ -22,7 +22,11 @@ const AddProperty = ({ navigation }) => {
     const [tenants, setTenants] = useState(['']);
     const [isSuccess, setIsSuccess] = useState(false);
     const addProperty = useMutation('addProperty');
-    const imageURI = useQuery('getApartmentURI', 0);
+
+    const imageURI = useQuery(
+        'getApartmentURI',
+        Math.floor(Math.random() * 100) % 4
+    );
 
     const userId = useContext(AuthContext);
 
@@ -153,7 +157,10 @@ const AddProperty = ({ navigation }) => {
                             <View style={styles.formGroup}>
                                 <Text style={styles.label}>Tenants</Text>
                                 {tenants.map((tenant, index) => (
-                                    <View style={styles.tenantInputContainer} key={index}>
+                                    <View
+                                        style={styles.tenantInputContainer}
+                                        key={index}
+                                    >
                                         <TextInput
                                             key={index}
                                             style={styles.emailInput}

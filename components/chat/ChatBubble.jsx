@@ -1,18 +1,13 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 
-const ChatBubble = ({ message, timestamp, isMine, avatar }) => {
+const ChatBubble = ({ message, isMine }) => {
     const bubbleStyles = isMine ? styles.myBubble : styles.otherBubble;
     const textStyles = isMine ? styles.myText : styles.otherText;
-
     return (
         <View style={styles.container}>
-            {!isMine && (
-                <Image style={styles.avatar} source={{ uri: avatar }} />
-            )}
             <View style={[styles.bubble, bubbleStyles]}>
                 <Text style={[styles.text, textStyles]}>{message}</Text>
-                <Text style={styles.timestamp}>{timestamp}</Text>
             </View>
         </View>
     );
@@ -21,14 +16,8 @@ const ChatBubble = ({ message, timestamp, isMine, avatar }) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        // alignItems: 'flex-end',
         marginVertical: 5,
-    },
-    avatar: {
-        width: 30,
-        height: 30,
-        borderRadius: 15,
-        marginRight: 10,
     },
     bubble: {
         borderRadius: 20,
@@ -53,12 +42,6 @@ const styles = StyleSheet.create({
     },
     otherText: {
         color: '#444444',
-    },
-    timestamp: {
-        fontSize: 12,
-        lineHeight: 16,
-        alignSelf: 'flex-end',
-        marginTop: 5,
     },
 });
 

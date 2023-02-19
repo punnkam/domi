@@ -1,38 +1,45 @@
-import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
+import React, { useState, useContext } from 'react';
+import {
+    StyleSheet,
+    SafeAreaView,
+    ScrollView,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Keyboard,
+} from 'react-native';
 import MessageThread from './MessageThread';
 import MessageInput from './MessageInput';
-import ChatHeader from './ChatHeader';
+import { AuthContext } from '../../context/AuthContext';
+import { useQuery, useMutation } from '../../convex/_generated/react';
 
-const ChatScreen = ({ chatPartner }) => {
-    const [messages, setMessages] = useState([]);
+const ChatScreen = () => {
+    const sendMessage = useMutation('sendMessage');
+
+    const currentUser = useContext(AuthContext);
+    const messages = useQuery('listMessagesByUser', currentUser);
 
     const handleSend = (message) => {
-        const newMessage = {
-            id: messages.length,
-            user: {
-                id: 1, // current user ID
-                name: 'John Doe',
-                avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
-            },
-            message: message,
-            timestamp: Date.now(),
-        };
-        setMessages([...messages, newMessage]);
+        sendMessage(currentUser, 'domibot', message);
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <ChatHeader chatPartner={chatPartner} />
-            <MessageThread messages={messages} user={currentUser} />
-            <MessageInput onSend={handleSend} />
-        </SafeAreaView>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.container}
+        >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <SafeAreaView style={styles.container}>
+                    <MessageThread messages={messages} user={currentUser} />
+                    <MessageInput onSend={handleSend} />
+                </SafeAreaView>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        height: '100%',
         backgroundColor: '#FFFFFF',
     },
 });

@@ -4,18 +4,12 @@ import ChatBubble from './ChatBubble';
 
 const MessageThread = ({ messages, user }) => {
     const renderChatBubble = ({ item }) => {
-        const isMine = item.user.id === user.id;
-        return (
-            <ChatBubble
-                message={item.message}
-                timestamp={item.timestamp}
-                isMine={isMine}
-                avatar={item.user.avatar}
-            />
-        );
+        const isMine = item.from.userId === user.userId;
+
+        return <ChatBubble message={item.message} isMine={isMine} />;
     };
 
-    const keyExtractor = (item) => item.id;
+    const keyExtractor = (item, index) => index.toString();
 
     return (
         <FlatList
