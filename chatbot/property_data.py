@@ -31,8 +31,10 @@ def create_qanda_data(text: str):
     """,
         """
     Are there any penalties for breaking my lease early?
-    Yes, there are penalties for breaking your lease early. The penalty amount depends on how much notice you provide and the circumstances of your early termination.
-    Please refer to your lease agreement or contact us for details.TODO
+    Yes, according to the lease agreement, there is an Early Termination clause (Section XIX) that states that the 
+    Tenant shall have the right to terminate the agreement at any time by providing at least 60 days’ written notice 
+    to the Landlord along with an early termination fee of $1500 (US Dollars). During the notice period for termination, 
+    the Tenant will remain responsible for the payment of rent.
     """,
         """
     What is the pet policy?
@@ -90,18 +92,12 @@ def create_qanda_data(text: str):
     """,
         """
     Are utilities included in my rent, or do I have to set them up myself?
-    It depends on the rental agreement. Some utilities may be included in your rent, while others may need to be set up and paid by you. 
-    Please refer to your lease agreement or contact us for details. TODO
+    Utilities included in the rent are water and electricity, but any other utilities or 
+    services not mentioned will be the responsibility of the Tenant.
     """,
         """
     What is the parking situation at the property, and are there any assigned parking spots or parking fees?
-    We have a parking policy and may have assigned parking spots or parking fees in place. 
-    Please refer to your lease agreement or contact us for details. TODO
-    """,
-        """
-    Are there any restrictions on smoking or vaping inside or outside the property?
-    Yes, we have a smoking and vaping policy in place for the safety and health of all residents. 
-    Please refer to your lease agreement or contact us for details. TODO
+    The lease agreement states that there is a Parking Fee of $100 due at signing, and you will be assigned a parking spot.
     """,
         """
     What is my rent?

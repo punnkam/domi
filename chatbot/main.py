@@ -121,6 +121,7 @@ if __name__ == "__main__":
     # qanda_data = create_qanda_data(text)
     
     with stub.run():
-        ans = chatbot_cli.call(text="can I have roomates?", history=[])
+        #ingest.call(qanda_data=qanda_data)
+        ans = chatbot_cli.call(text="can I move out early?", history=[])
         print(ans)
-    #     ingest.call(qanda_data=qanda_data)
+    # #     ingest.call(qanda_data=qanda_data)
