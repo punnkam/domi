@@ -4,7 +4,6 @@ import { StyleSheet, View, Text, Image } from "react-native";
 const ChatBubble = ({ message, isMine }) => {
   const bubbleStyles = isMine ? styles.myBubble : styles.otherBubble;
   const textStyles = isMine ? styles.myText : styles.otherText;
-  console.log("isMine = ", isMine);
 
   return (
     <View
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
     maxWidth: "80%",
   },
   myBubble: {
-    backgroundColor: "#DCF8C5",
+    backgroundColor: "#EFF7FF",
   },
   otherBubble: {
     alignSelf: "flex-start",
