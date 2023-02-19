@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Text, Button, View, StyleSheet, TextInput, Alert } from "react-native";
+import { Button, View, StyleSheet, TextInput, Alert } from "react-native";
 import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
-import { useQuery } from "../convex/_generated/react";
 import axios from "axios";
 
 const API_URL = "https://domi-server-production.up.railway.app";
