@@ -10,14 +10,18 @@ import {
 const Login = ({ setUserType }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    // const login = (username, password) => {
+    //     if (username === 'landlord' && password === 'landlord') {
+    //         setUserType(1);
+    //     } else if (username === 'tenant1' && password === 'tenant1') {
+    //         setUserType(2);
+    //     } else if (username === 'tenant2' && password === 'tenant2') {
+    //         setUserType(3);
+    //     }
+    // };
+    // for local testing
     const login = (username, password) => {
-        if (username === 'landlord' && password === 'landlord') {
-            setUserType(1);
-        } else if (username === 'tenant1' && password === 'tenant1') {
-            setUserType(2);
-        } else if (username === 'tenant2' && password === 'tenant2') {
-            setUserType(3);
-        }
+        setUserType(1);
     };
 
     return (

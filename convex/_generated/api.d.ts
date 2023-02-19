@@ -13,6 +13,8 @@ import type { ApiFromModules } from "convex/api";
 import type * as addProperty from "../addProperty";
 import type * as editPropertyById from "../editPropertyById";
 import type * as getApartmentURI from "../getApartmentURI";
+import type * as getHouseURI from "../getHouseURI";
+import type * as getName from "../getName";
 import type * as getPaymentsFromUser from "../getPaymentsFromUser";
 import type * as getPaymentsToUser from "../getPaymentsToUser";
 import type * as getPropertiesByOwner from "../getPropertiesByOwner";
@@ -32,6 +34,8 @@ export type API = ApiFromModules<{
   addProperty: typeof addProperty;
   editPropertyById: typeof editPropertyById;
   getApartmentURI: typeof getApartmentURI;
+  getHouseURI: typeof getHouseURI;
+  getName: typeof getName;
   getPaymentsFromUser: typeof getPaymentsFromUser;
   getPaymentsToUser: typeof getPaymentsToUser;
   getPropertiesByOwner: typeof getPropertiesByOwner;

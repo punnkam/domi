@@ -11,6 +11,7 @@ export default function PropertyCard({
     price,
     numTenants,
     tenants,
+    address,
 }) {
     const data = useQuery('getApartmentURI', 0);
 
@@ -23,6 +24,9 @@ export default function PropertyCard({
             onPress={() =>
                 navigation.navigate('Property', {
                     tenants: tenants,
+                    imageURI: data,
+                    name: name,
+                    address: address,
                 })
             }
         >

@@ -1,71 +1,77 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, FlatList, ActivityIndicator } from 'react-native';
-import { useQuery } from '../convex/_generated/react';
+import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-export const TenantList = ({ tenants }) => {
-    let isLoading = false;
-    let names = []
-
-    try {
-        tenants.map((tenant) => {
-            const name = useQuery('getName', tenant)
-            if (!name) throw new Error('Loading');
-            names.push(name);
-        });
-    } catch(error) {
-        isLoading = true;
-    }
-
-    if (isLoading) return <ActivityIndicator/>
-
+export default function TenantItem({ name, imageURI, status, isOverdue }) {
     return (
-        <FlatList
-            data={names}
-            numColumns={3}
-            renderItem={({ tenant }) => (
-                <View style={styles.itemContainer}>
-                    <View style={styles.itemImageContainer}>
-                        <Image
-                            source={
-                                // TODO: Replace with imageURI of avatar
-                                'https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg'
-                            }
-                            style={styles.profileImage}
-                        />
-                        <Text style={styles.itemName}>{tenant}</Text>
-                    </View>
-                    <Text style={styles.paymentStatus}>{tenant}</Text>
+        <TouchableOpacity style={styles.button}>
+            <View style={styles.card}>
+                <View style={styles.textContainer}>
+                    <Image
+                        source={{
+                            uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz4s_4X_ATZB0EnRdOBPMB7LN8UtsDj0wzZQ&usqp=CAU',
+                        }}
+                        style={styles.image}
+                    />
+                    <Text style={styles.title}>{name}</Text>
+                    <Text style={isOverdue ? styles.red : styles.green}>
+                        {isOverdue ? 'Late' : 'Paid'}
+                    </Text>
                 </View>
-            )}
-            keyExtractor={(item) => item.id}
-            style={styles.listContainer}
-        />
+            </View>
+        </TouchableOpacity>
     );
-};
+}
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
+    button: {
+        width: '100%',
     },
-    listContainer: {
-        marginHorizontal: 20,
-    },
-    itemContainer: {
-        flex: 1,
-        margin: 5,
-        height: 100,
+    card: {
+        flexDirection: 'row',
+        margin: 10,
         backgroundColor: '#fff',
         borderRadius: 5,
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 2,
+        elevation: 5,
     },
-    itemName: {
-        fontSize: 16,
-        fontWeight: 'bold',
+    image: {
+        width: 50,
+        height: 50,
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius: 5,
+        margin: 5,
     },
-    itemImageContainer: {
+    textContainer: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
+        padding: 10,
+        width: '100%',
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
+    title: {
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    red: {
+        fontSize: 18,
+        color: 'red',
+        marginRight: 10,
+    },
+    green: {
+        fontSize: 18,
+        color: 'green',
+        marginRight: 10,
+    },
+    arrow: {
+        alignSelf: 'center',
+        marginRight: 10,
     },
 });
