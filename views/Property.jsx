@@ -17,7 +17,8 @@ const HeroImage = () => {
     );
 };
 
-const Property = ({ tenants }) => {
+const Property = ({route: {params: {tenants}}}) => {
+
     return (
         <View style={styles.container}>
             <HeroImage />

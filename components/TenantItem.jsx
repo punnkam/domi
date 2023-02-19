@@ -1,11 +1,22 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, FlatList } from 'react-native';
+import { StyleSheet, View, Text, Image, FlatList, ActivityIndicator } from 'react-native';
 import { useQuery } from '../convex/_generated/react';
 
 export const TenantList = ({ tenants }) => {
-    const getName = useQuery('getName');
+    let isLoading = false;
+    let names = []
 
-    const names = tenants.map((tenant) => getName(tenant));
+    try {
+        tenants.map((tenant) => {
+            const name = useQuery('getName', tenant)
+            if (!name) throw new Error('Loading');
+            names.push(name);
+        });
+    } catch(error) {
+        isLoading = true;
+    }
+
+    if (isLoading) return <ActivityIndicator/>
 
     return (
         <FlatList
