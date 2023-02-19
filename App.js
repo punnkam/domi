@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import "react-native-get-random-values";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import * as React from "react";
+import { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeSelected from "./assets/home-selected.png";
@@ -41,6 +42,10 @@ export default function App() {
    * 3: Tenant 2
    */
   const [userId, setUserId] = React.useState(0);
+
+  useEffect(() => {
+    console.disableYellowBox = true;
+  }, []);
 
   return (
     <AuthContext.Provider value={{ userId }}>

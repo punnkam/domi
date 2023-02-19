@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Text, Button, View, StyleSheet, TextInput, Alert } from "react-native";
 import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
+import { useAction } from "../convex/_generated/react";
 
 const API_URL = "http://localhost:3000";
 
@@ -9,28 +10,25 @@ export default function TransactionsScreen() {
   const [cardDetails, setCardDetails] = useState("4242 4242 4242 4242");
   const { confirmPayment, loading } = useConfirmPayment();
   const fetchPaymentIntentClientSecret = async () => {
-    const response = await fetch(`${API_URL}/create-payment-intent`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const { clientSecret, error } = await response.json();
-    return { clientSecret, error };
+    console.log("fetchPaymentIntentClientSecret called");
+    useAction("actions/creatPaymentIntent", "abc", "xyz");
+    console.log("Worked!");
   };
 
   const handlePayPress = async () => {
+    console.log("Payment pressed!");
     // 1. Gather the customer's billing information (e.g., email)
-    if (!cardDetails?.complete || !email) {
-      Alert.alert("Please enter Complete card details and Email");
-      return;
-    }
+    // if (!cardDetails?.complete || !email) {
+    //   Alert.alert("Please enter Complete card details and Email");
+    //   return;
+    // }
     const billingDetails = { email };
     // 2. Fetch the intent client secret from your backend
     try {
       const { clientSecret, error } = await fetchPaymentIntentClientSecret();
       if (error) console.log("Unable to process payment");
       else {
+        console.log("within handlePayPress, clientSecret = ", clientSecret);
         const { paymentIntent, error } = await confirmPayment(clientSecret, {
           type: "Card",
           billingDetails,
@@ -58,9 +56,10 @@ export default function TransactionsScreen() {
       <CardField
         postalCodeEnabled={true}
         placeholder={{ number: "4242 4242 4242 4242" }}
-        cardStyle={styles.card}
-        style={styles.cardContainer}
+        cardStyle={{ backgroundColor: "#FFFFFF", textColor: "#000000" }}
+        style={{ width: "100%", height: 50, marginVertical: 30 }}
         onCardChange={(cardDetails) => setCardDetails(cardDetails)}
+        onFocus={(focusedField) => console.log("focusField", focusedField)}
       />
       <Button onPress={handlePayPress} disabled={loading} title="Pay" />
     </View>

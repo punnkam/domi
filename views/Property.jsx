@@ -1,27 +1,29 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, FlatList } from 'react-native';
-import { TenantList } from '../components/TenantItem';
+import { TenantList } from '../components/TenantList';
 
-const HeroImage = () => {
+const HeroImage = ({ imageURI }) => {
     return (
         <View style={styles.heroContainer}>
-            <Image
-                style={styles.heroImage}
-                source={{ uri: 'https://source.unsplash.com/random/800x400' }}
-            />
-            <View style={styles.heroTextContainer}>
-                <Text style={styles.heroTitle}>Title</Text>
-                <Text style={styles.heroSubtitle}>Subtitle</Text>
-            </View>
+            <Image style={styles.heroImage} source={{ uri: imageURI }} />
         </View>
     );
 };
 
-const Property = ({route: {params: {tenants}}}) => {
-
+const Property = ({
+    route: {
+        params: { tenants, imageURI, name, address },
+    },
+}) => {
     return (
         <View style={styles.container}>
-            <HeroImage />
+            <HeroImage imageURI={imageURI} />
+            <View style={styles.heroTextContainer}>
+                <Text style={styles.heroTitle}>{name}</Text>
+                <Text style={styles.heroSubtitle}>{`${address} | ${
+                    tenants.length
+                } ${tenants.length > 1 ? 'tenants' : 'tenant'}`}</Text>
+            </View>
             <TenantList tenants={tenants} />
         </View>
     );
@@ -40,20 +42,17 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     heroTextContainer: {
-        position: 'absolute',
-        bottom: 40,
-        left: 0,
-        right: 0,
         alignItems: 'center',
     },
     heroTitle: {
         fontSize: 32,
         fontWeight: 'bold',
-        color: '#fff',
+        color: '#000',
+        marginBottom: 5,
     },
     heroSubtitle: {
         fontSize: 18,
-        color: '#fff',
+        color: '#000',
     },
 });
 
