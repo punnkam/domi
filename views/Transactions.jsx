@@ -45,8 +45,7 @@ export default function TransactionsScreen() {
             `Payment Confirmation Error ${error.message}. Error code: ${error.code}`
           );
         } else if (paymentIntent) {
-          alert("Payment Successful");
-          console.log("Payment successful ", paymentIntent);
+          Alert.alert("Payment Successful");
         }
       }
     } catch (error) {
