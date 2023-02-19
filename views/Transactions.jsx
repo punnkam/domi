@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Text, Button, View, StyleSheet, TextInput, Alert } from "react-native";
 import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
-import { useAction } from "../convex/_generated/react";
+import { useQuery } from "../convex/_generated/react";
+import axios from "axios";
 
-const API_URL =
-  "https://domi-server-production.up.railway.app/create-payment-intent";
+const API_URL = "https://domi-server-production.up.railway.app";
 
 export default function TransactionsScreen() {
   const [email, setEmail] = useState("");
@@ -12,11 +12,13 @@ export default function TransactionsScreen() {
   const { confirmPayment, loading } = useConfirmPayment();
   const fetchPaymentIntentClientSecret = async () => {
     console.log("fetchPaymentIntentClientSecret called");
-    await axios
-      .post(API_URL)
-      .then((res) => console.log("res = ", res))
-      .catch((err) => console.log(err));
-    console.log("Worked!");
+    const response = await axios
+      .post(`${API_URL}/create-payment-intent`)
+      .then((res) => res.data)
+      .catch((error) => console.log("error = ", error));
+    return !response
+      ? { error: true }
+      : { clientSecret: response.clientSecret };
   };
 
   const handlePayPress = async () => {
@@ -44,7 +46,9 @@ export default function TransactionsScreen() {
           console.log("Payment successful ", paymentIntent);
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("error from handlePayPress = ", error);
+    }
     // 3. Confirm the payment with the card details.
   };
 
