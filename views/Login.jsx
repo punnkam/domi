@@ -32,12 +32,14 @@ const Login = ({ setUserType }) => {
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
+                    autoCapitalize='none'
                     placeholder='Username'
                     value={username}
                     onChangeText={setUsername}
                 />
                 <TextInput
                     style={styles.input}
+                    autoCapitalize='none'
                     placeholder='Password'
                     secureTextEntry={true}
                     value={password}
