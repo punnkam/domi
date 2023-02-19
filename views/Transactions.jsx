@@ -11,7 +11,7 @@ export default function TransactionsScreen() {
   const { confirmPayment, loading } = useConfirmPayment();
   const fetchPaymentIntentClientSecret = async () => {
     console.log("fetchPaymentIntentClientSecret called");
-    useAction("actions/creatPaymentIntent", "abc", "xyz");
+    await useAction("actions/createPaymentIntent", "abc", "xyz");
     console.log("Worked!");
   };
 
