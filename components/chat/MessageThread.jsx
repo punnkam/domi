@@ -6,9 +6,10 @@ function compareBytime(timeA, timeB) {
   return timeB.timestamp - timeA.timestamp;
 }
 
-const MessageThread = ({ messages, user }) => {
+const MessageThread = ({ messages, user, isDomiResponding }) => {
   //   console.log("messages = ", messages);
-  const sortedMessages = messages.sort(compareBytime);
+  let sortedMessages = messages.sort(compareBytime);
+
   const renderChatBubble = ({ item }) => {
     const isMine = item.from.userId === user.userId;
 

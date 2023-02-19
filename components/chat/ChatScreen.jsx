@@ -15,6 +15,7 @@ import { useQuery, useMutation } from "../../convex/_generated/react";
 import axios from "axios";
 
 const ChatScreen = () => {
+  const [isDomiResponding, setIsDomiResponding] = useState(false);
   const sendMessage = useMutation("sendMessage");
 
   const currentUser = useContext(AuthContext);
@@ -43,7 +44,9 @@ const ChatScreen = () => {
   const handleSend = async (message) => {
     sendMessage(currentUser, "domibot", message);
     console.log("currentUser = ", currentUser);
+    setIsDomiResponding(true);
     const { error, response } = await askDomiBot(message);
+    setIsDomiResponding(false);
     if (error)
       sendMessage(
         { userId: -1 },
@@ -60,7 +63,11 @@ const ChatScreen = () => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={styles.container}>
-          <MessageThread messages={messages} user={currentUser} />
+          <MessageThread
+            messages={messages}
+            user={currentUser}
+            isDomiResponding={isDomiResponding}
+          />
           <MessageInput onSend={handleSend} />
         </SafeAreaView>
       </TouchableWithoutFeedback>
