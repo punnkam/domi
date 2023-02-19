@@ -56,7 +56,7 @@ export default function App() {
           ? Linking.createURL("/--/")
           : Linking.createURL(""),
     });
-  }, []);
+  }, [userId]);
 
   return (
     <AuthContext.Provider value={{ userId }}>
@@ -87,7 +87,7 @@ export default function App() {
               {userId === 1 && <Tab.Screen name="Home" component={HomeStack} />}
               <Tab.Screen name="Transactions" component={TxnStack} />
               <Tab.Screen name="DomieBot" component={DomieBotScreen} />
-              <Tab.Screen name="Profile" component={ProfileScreen} />
+              <Tab.Screen name="Profile" component={ProfileScreen} initialParams={{ logout: { setUserId } }} />
             </Tab.Navigator>
           ) : (
             <Login setUserType={setUserId} />

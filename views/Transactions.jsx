@@ -142,7 +142,12 @@ export default function TransactionsScreen() {
                     console.log('focusField', focusedField)
                 }
             />
-            <Button onPress={handlePayPress} disabled={loading} title='Pay' />
+            <Button
+                style={styles.button}
+                onPress={handlePayPress}
+                disabled={loading}
+                title='Pay'
+            />
         </View>
     );
 }
