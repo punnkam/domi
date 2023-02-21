@@ -1,6 +1,7 @@
 import os
 import pathlib
 import sys
+import json
 from datetime import datetime
 
 import modal
@@ -45,7 +46,6 @@ weaviate_url = 'https://domi.weaviate.network'
     ],
 )
 def chatbot_web(request: ChatResponseRequest):
-#def chatbot(request: str):
     """
     The entire chatbot API, a single HTTP POST endpoint. The state of the conversation
     is maintained client-side, and is passed to the endpoint on each inference request.
@@ -75,6 +75,7 @@ def chatbot_cli(text: str, history: list[list[str]]):
     vectorstore = Weaviate(client, "Paragraph", "content", attributes=["source"])
     chain = create_chatbot_langchain(vectorstore, weaviate_url)
     result = chain({"question": text, "chat_history": history})
+
     return {"answer": result["answer"]}
 
 @stub.function()
@@ -110,9 +111,16 @@ def db_config_from_env() -> dict[str, str]:
         )
     return {k.replace("PG", "").lower(): v for k, v in extracted_env.items()}
 
-
+#for the api
+@stub.function
+def get_chatbot_response(text, history):
+    with stub.run():
+        ans = chatbot_cli.call(text=text, history=history)
+        response = ans['answer']
+    return json.dumps({"response": response})
 
 if __name__ == "__main__":
+    stub.deploy()
     # if len(sys.argv) != 2:
     #     exit("Must pass path to lease file")
     # lease_data_path = sys.argv[1]
@@ -120,8 +128,9 @@ if __name__ == "__main__":
     # text = pathlib.Path(lease_data_path).read_text()
     # qanda_data = create_qanda_data(text)
     
-    with stub.run():
-        #ingest.call(qanda_data=qanda_data)
-        ans = chatbot_cli.call(text="can I move out early?", history=[])
-        print(ans)
+    # with stub.run():
+    #     ingest.call(qanda_data=qanda_data)
+    #     # ans = chatbot_cli.call(text="can I move out early?", history=[])
+        # print(ans['answer'])
     # #     ingest.call(qanda_data=qanda_data)
+
