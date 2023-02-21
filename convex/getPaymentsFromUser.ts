@@ -1,9 +1,9 @@
 import { query } from './_generated/server';
 
-export default query(async ({ db }, user: string) => {
+export default query(async ({ db }, userId: number) => {
     return await db
         .query('payments')
         .order('desc')
-        .filter((q) => q.eq(q.field('from'), user))
+        .filter((q) => q.eq(q.field('from'), userId))
         .collect();
 });

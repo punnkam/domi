@@ -1,9 +1,11 @@
-import { Text, View } from "react-native";
+import { Text, View } from 'react-native';
+import React from 'react';
+import ChatScreen from '../components/chat/ChatScreen';
 
 export default function DomieBotScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>DomieBot!</Text>
-    </View>
-  );
+    return (
+        <View>
+            <ChatScreen />
+        </View>
+    );
 }

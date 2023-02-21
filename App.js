@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
 import "react-native-get-random-values";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
@@ -15,13 +14,16 @@ import Profile from "./assets/profile.png";
 import ProfileSelected from "./assets/profile-selected.png";
 import Login from "./views/Login";
 
-import HomeScreen from "./views/HomeScreen";
 import TransactionsScreen from "./views/Transactions";
 import DomieBotScreen from "./views/DomieBot";
+import TxnStack from "./views/TxnStack";
 import ProfileScreen from "./views/Profile";
 import HomeStack from "./views/HomeStack";
 import { AuthContext } from "./context/AuthContext";
-import { StripeProvider } from "@stripe/stripe-react-native";
+import { initStripe } from "@stripe/stripe-react-native";
+
+import * as Linking from "expo-linking";
+import Constants from "expo-constants";
 
 const convex = new ConvexReactClient(
   "https://frugal-crocodile-166.convex.cloud",
@@ -45,48 +47,52 @@ export default function App() {
 
   useEffect(() => {
     console.disableYellowBox = true;
-  }, []);
+    initStripe({
+      publishableKey:
+        "pk_test_51Md43MJNJYoa22nr14xn6Cdbu8SK6iAh3ANU5HpCDZd55eaDm9ub6oPizhAbAFlTugORVNTRZhMnodHIwt5ZVn2L00xhk2Ntn7",
+      merchantIdentifier: "merchant.identifier",
+      urlScheme:
+        Constants.appOwnership === "expo"
+          ? Linking.createURL("/--/")
+          : Linking.createURL(""),
+    });
+  }, [userId]);
 
   return (
     <AuthContext.Provider value={{ userId }}>
       <ConvexProvider client={convex}>
-        <StripeProvider publisableKey="pk_test_51Md43MJNJYoa22nr14xn6Cdbu8SK6iAh3ANU5HpCDZd55eaDm9ub6oPizhAbAFlTugORVNTRZhMnodHIwt5ZVn2L00xhk2Ntn7">
-          <NavigationContainer>
-            {userId !== 0 ? (
-              <Tab.Navigator
-                screenOptions={({ route }) => ({
-                  tabBarIcon: ({ focused, color, size }) => {
-                    // You can return any component that you like here!
-                    return <GetIcons {...{ focused, routeName: route.name }} />;
+        <NavigationContainer>
+          {userId !== 0 ? (
+            <Tab.Navigator
+              screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                  // You can return any component that you like here!
+                  return <GetIcons {...{ focused, routeName: route.name }} />;
+                },
+                tabBarActiveTintColor: "black",
+                tabBarInActiveTintColor: "gray",
+                tabBarItemStyle: {
+                  paddingTop: 10,
+                },
+                tabBarStyle: [
+                  {
+                    display: "flex",
+                    minHeight: 85,
                   },
-                  tabBarActiveTintColor: "black",
-                  tabBarInActiveTintColor: "gray",
-                  tabBarItemStyle: {
-                    paddingTop: 10,
-                  },
-                  tabBarStyle: [
-                    {
-                      display: "flex",
-                      minHeight: 85,
-                    },
-                    null,
-                  ],
-                  headerShown: false,
-                })}
-              >
-                <Tab.Screen name="Home" component={HomeStack} />
-                <Tab.Screen
-                  name="Transactions"
-                  component={TransactionsScreen}
-                />
-                <Tab.Screen name="DomieBot" component={DomieBotScreen} />
-                <Tab.Screen name="Profile" component={ProfileScreen} />
-              </Tab.Navigator>
-            ) : (
-              <Login setUserType={setUserId} />
-            )}
-          </NavigationContainer>
-        </StripeProvider>
+                  null,
+                ],
+                headerShown: false,
+              })}
+            >
+              {userId === 1 && <Tab.Screen name="Home" component={HomeStack} />}
+              <Tab.Screen name="Transactions" component={TxnStack} />
+              <Tab.Screen name="DomieBot" component={DomieBotScreen} />
+              <Tab.Screen name="Profile" component={ProfileScreen} initialParams={{ logout: { setUserId } }} />
+            </Tab.Navigator>
+          ) : (
+            <Login setUserType={setUserId} />
+          )}
+        </NavigationContainer>
       </ConvexProvider>
     </AuthContext.Provider>
   );

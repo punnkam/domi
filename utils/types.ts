@@ -3,6 +3,13 @@ export interface Payment {
     to: string;
     amount: number;
     purpose?: string;
+    status: PaymentStatus;
+}
+
+export enum PaymentStatus {
+    PENDING = 'pending',
+    APPROVED = 'approved',
+    REJECTED = 'rejected',
 }
 
 export interface Property {
@@ -21,4 +28,12 @@ export interface User {
     email: string;
     password: string;
     phone: string;
+    imageURI?: string;
+}
+
+export interface Message {
+    from: string;
+    to: string;
+    message: string;
+    timestamp: number;
 }

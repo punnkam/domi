@@ -13,8 +13,6 @@ export default function PropertyCard({
     tenants,
     address,
 }) {
-    const data = useQuery('getApartmentURI', 0);
-
     // Randomization for demo purposes
     const randomDays = (Math.floor(Math.random() * 100) % 29) + 1;
     const isOverdue = Math.floor(Math.random() * 100) % 2 == 1;
@@ -24,14 +22,14 @@ export default function PropertyCard({
             onPress={() =>
                 navigation.navigate('Property', {
                     tenants: tenants,
-                    imageURI: data,
+                    imageURI: imageSource,
                     name: name,
                     address: address,
                 })
             }
         >
             <View style={styles.card}>
-                <Image source={{ uri: data }} style={styles.image} />
+                <Image source={{ uri: imageSource }} style={styles.image} />
                 <View style={styles.textContainer}>
                     <Text style={styles.title}>{name}</Text>
                     <Text

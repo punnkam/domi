@@ -1,5 +1,13 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, FlatList } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    FlatList,
+    ScrollView,
+    SafeAreaView,
+} from 'react-native';
 import { TenantList } from '../components/TenantList';
 
 const HeroImage = ({ imageURI }) => {
@@ -16,16 +24,18 @@ const Property = ({
     },
 }) => {
     return (
-        <View style={styles.container}>
-            <HeroImage imageURI={imageURI} />
-            <View style={styles.heroTextContainer}>
-                <Text style={styles.heroTitle}>{name}</Text>
-                <Text style={styles.heroSubtitle}>{`${address} | ${
-                    tenants.length
-                } ${tenants.length > 1 ? 'tenants' : 'tenant'}`}</Text>
+        <ScrollView>
+            <View style={styles.container}>
+                <HeroImage imageURI={imageURI} />
+                <View style={styles.heroTextContainer}>
+                    <Text style={styles.heroTitle}>{name}</Text>
+                    <Text style={styles.heroSubtitle}>{`${address} | ${
+                        tenants.length
+                    } ${tenants.length > 1 ? 'tenants' : 'tenant'}`}</Text>
+                </View>
+                <TenantList tenants={tenants} />
             </View>
-            <TenantList tenants={tenants} />
-        </View>
+        </ScrollView>
     );
 };
 
